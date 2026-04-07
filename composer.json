@@ -35,10 +35,6 @@
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "bin": [
-    "bin/sake-npm-build-ecommerce-order-uptime.sh",
-    "bin/sake-npm-watch-ecommerce-order-uptime.sh"
-  ],
   "authors": [
     {
       "name": "Nicolaas Thiemen Francken",
