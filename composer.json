@@ -1,45 +1,45 @@
 {
-  "name": "sunnysideup/ecommerce-order-uptime",
-  "description": "Checks if you are getting the expected number of order based on historical data",
-  "type": "silverstripe-vendormodule",
-  "keywords": [
-    "ecommerce",
-    "order",
-    "uptime",
-    "down",
-    "sales",
-    "monitoring"
-  ],
-  "license": "BSD-3-Clause",
-  "require": {
-    "silverstripe/framework": "^5.0",
-    "silverstripe/admin": "^2.0"
-  },
-  "require-dev": {
-    "sunnysideup/sswebpack_engine_only": "5.x-dev",
-    "silverleague/ideannotator": "*",
-    "phpunit/phpunit": "^9.6",
-    "squizlabs/php_codesniffer": "^3.7",
-    "silverstripe/standards": "^1",
-    "phpstan/extension-installer": "^1.3"
-  },
-  "autoload": {
-    "psr-4": {
-      "Sunnysideup\\OrderUptime\\": "src/"
-    }
-  },
-  "extra": {
-    "expose": [
-      "client/dist"
+    "name": "sunnysideup/ecommerce-order-uptime",
+    "description": "Checks if you are getting the expected number of order based on historical data",
+    "type": "silverstripe-vendormodule",
+    "keywords": [
+        "ecommerce",
+        "order",
+        "uptime",
+        "down",
+        "sales",
+        "monitoring"
+    ],
+    "license": "BSD-3-Clause",
+    "require": {
+        "silverstripe/framework": "^6.0",
+        "silverstripe/admin": "^3.0"
+    },
+    "require-dev": {
+        "sunnysideup/sswebpack_engine_only": "^5.0-dev",
+        "silverleague/ideannotator": "*",
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "^3.7",
+        "silverstripe/standards": "^1",
+        "phpstan/extension-installer": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sunnysideup\\OrderUptime\\": "src/"
+        }
+    },
+    "extra": {
+        "expose": [
+            "client/dist"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Nicolaas Thiemen Francken",
+            "email": "modules@sunnysideup.co.nz",
+            "role": "lead developer"
+        }
     ]
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "authors": [
-    {
-      "name": "Nicolaas Thiemen Francken",
-      "email": "modules@sunnysideup.co.nz",
-      "role": "lead developer"
-    }
-  ]
 }
