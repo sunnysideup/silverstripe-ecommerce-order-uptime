@@ -7,6 +7,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Security\Permission;
 use SilverStripe\ORM\FieldType\DBDatetime;
+use Sunnysideup\Ecommerce\Model\Address\EcommerceCountry;
 use Sunnysideup\Ecommerce\Model\Process\OrderStatusLogs\OrderStatusLogSubmitted;
 
 /**
@@ -62,9 +63,10 @@ class OrderStatusLogSubmittedCreationMonitorController extends Controller
     public function check(HTTPRequest $request): HTTPResponse
     {
         // Safely cap inputs so even trusted monitors can't exhaust the database
-        $weeks = min((int) ($request->getVar('weeks') ?: static::config()->get('default_lookback_weeks')), 12);
-        $windowHrs = (int) ($request->getVar('window') ?: static::config()->get('default_window_hours'));
-        $maxWindow = min((int) ($request->getVar('maxwindow') ?: static::config()->get('max_window_hours')), 24);
+        $weeks = max(1, min((int) ($request->getVar('weeks') ?: static::config()->get('default_lookback_weeks')), 12));
+        $maxWindow = max(1, min((int) ($request->getVar('maxwindow') ?: static::config()->get('max_window_hours')), 24));
+        // a window of zero or less would make the widening loop below run forever
+        $windowHrs = max(1, min((int) ($request->getVar('window') ?: static::config()->get('default_window_hours')), $maxWindow));
 
         $minActive  = (int) static::config()->get('min_active_weeks');
         $zThreshold = (float) static::config()->get('z_threshold');
@@ -199,13 +201,9 @@ class OrderStatusLogSubmittedCreationMonitorController extends Controller
             return false;
         }
 
-        // Check for Cloudflare's real IP header first
-        $clientIp = $request->getHeader('CF-Connecting-IP');
-
-        // Fallback to standard SilverStripe IP resolution
-        if (!$clientIp) {
-            $clientIp = $request->getIP();
-        }
+        // The CF-Connecting-IP header can be forged unless the connection is verified to come from CloudFlare:
+        // EcommerceCountry::get_ip() is the one trusted way to find the visitor address.
+        $clientIp = class_exists(EcommerceCountry::class) ? EcommerceCountry::get_ip() : (string) $request->getIP();
 
         return in_array($clientIp, $allowedIps, true);
     }
